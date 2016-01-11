@@ -2,7 +2,8 @@ class Board
   attr_reader :grid
 
   def initialize
-    @grid = Array.new(8) {Array.new(8)}
+    @grid = Array.new(8) {Array.new(8) {1}}
+
   end
 
   def move(start_pos, end_pos)
@@ -12,9 +13,14 @@ class Board
   end
 
   def valid_move?(start_pos, end_pos)
-    
+
   end
 
+  def in_bounds?(pos)
+    row, col = pos
+    row.between?(0, 7) && col.between?(0, 7)
+  end
+  
   def [](pos)
     row, col = pos
     grid[row][col]
@@ -25,4 +31,7 @@ class Board
     grid[row][col] = value
   end
 
+  def full?
+    false
+  end
 end
