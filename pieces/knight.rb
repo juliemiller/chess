@@ -1,17 +1,17 @@
-require_relative 'sliding_pieces.rb'
+require_relative 'stepping_pieces.rb'
 require "colorize"
 
-class Rook < SlidingPiece
+class Knight < SteppingPiece
 
   def initialize(pos, color, board)
     super(pos, color, board)
   end
 
   def to_s
-    "♜".colorize(color)
+    "♞".colorize(color)
   end
 
   def moves
-    generate_moves(:perpendicular)
+    generate_moves(:knight)
   end
 end

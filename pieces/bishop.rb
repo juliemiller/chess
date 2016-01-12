@@ -12,6 +12,6 @@ class Bishop < SlidingPiece
   end
 
   def moves
-    @pos_moves = generate_moves(:diagonal)
+    generate_moves(:diagonal)
   end
 end

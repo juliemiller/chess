@@ -1,9 +1,7 @@
 require 'colorize'
 require_relative 'cursorable'
 require_relative 'board.rb'
-require_relative 'pieces/sliding_pieces.rb'
-require_relative 'pieces/queen.rb'
-
+require_relative 'pieces/pieces.rb'
 class Display
   include Cursorable
   attr_reader :board
@@ -11,8 +9,8 @@ class Display
     board ||= Board.new
     @board = board
     @cursor_pos = [0,0]
-    @board[[1,1]] = Queen.new([1,1], :black, @board)
-    @board[[3,3]] = Queen.new([3,3], :white, @board)
+    @board[[2,2]] = Piece.new([2,2], :white, @board)
+    @board[[3,3]] = Bishop.new([3,3], :white, @board)
     @board[[3,3]].moves
   end
 

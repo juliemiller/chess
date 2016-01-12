@@ -12,6 +12,6 @@ class Queen < SlidingPiece
   end
 
   def moves
-    @pos_moves = generate_moves(:all)
+    generate_moves(:all)
   end
 end

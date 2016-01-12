@@ -17,21 +17,19 @@ class SlidingPiece < Piece
   def generate_moves(option)
     raise "Specify which directions are allowed" if option.nil?
     deltas = DELTA_HASH[option]
-    pos_moves = []
-    p @pos
+    @pos_moves = []
     deltas.each do |delta|
       possible_pos = [@pos[0] + delta[0], @pos[1] + delta[1]]
-      p @pos
       while in_bounds?(possible_pos) && board[possible_pos].nil?
-        pos_moves << possible_pos
+        @pos_moves << possible_pos
         possible_pos = [ possible_pos[0] + delta[0] , possible_pos[1] + delta[1] ]
       end
       if in_bounds?(possible_pos)
-        pos_moves << possible_pos if board[possible_pos].color != self.color
+        @pos_moves << possible_pos if board[possible_pos].color != self.color
       end
     end
 
-    pos_moves
+    @pos_moves
   end
 
 end
