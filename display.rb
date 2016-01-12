@@ -2,6 +2,7 @@ require 'colorize'
 require_relative 'cursorable'
 require_relative 'board.rb'
 require_relative 'pieces/sliding_pieces.rb'
+require_relative 'pieces/queen.rb'
 
 class Display
   include Cursorable
@@ -10,9 +11,9 @@ class Display
     board ||= Board.new
     @board = board
     @cursor_pos = [0,0]
-    @board[[1,1]] = SlidingPiece.new([0,0], :white, @board)
-    @board[[3,3]] = SlidingPiece.new([3,3], :white, @board)
-    @board[[3,3]].moves(:all)
+    @board[[1,1]] = Queen.new([1,1], :black, @board)
+    @board[[3,3]] = Queen.new([3,3], :white, @board)
+    @board[[3,3]].moves
   end
 
   def build_grid

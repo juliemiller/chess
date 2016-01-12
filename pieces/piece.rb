@@ -16,4 +16,7 @@ class Piece
     @board.in_bounds?(pos)
   end
 
+  def die
+    @pos = [nil, nil]
+  end
 end
