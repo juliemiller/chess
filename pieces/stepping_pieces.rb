@@ -1,7 +1,6 @@
 require_relative 'piece'
 
 class SteppingPiece < Piece
-  attr_reader :pos_moves
 
   def initialize(pos, color, board)
     super(pos, color, board)

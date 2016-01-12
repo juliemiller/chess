@@ -2,16 +2,18 @@ require 'colorize'
 require_relative 'cursorable'
 require_relative 'board.rb'
 require_relative 'pieces/pieces.rb'
+
 class Display
   include Cursorable
   attr_reader :board
+
   def initialize(board = nil)
     board ||= Board.new
     @board = board
     @cursor_pos = [0,0]
-    @board[[2,2]] = Piece.new([2,2], :white, @board)
-    @board[[3,3]] = Bishop.new([3,3], :white, @board)
-    @board[[3,3]].moves
+    # @board[[5,2]] = Pawn.new([5,2], :white, @board)
+    # @board[[6,3]] = Pawn.new([6,3], :white, @board)
+    # @board[[6,3]].moves
   end
 
   def build_grid
@@ -29,28 +31,40 @@ class Display
 
   def colors_for(i, j)
     if [i, j] == @cursor_pos
-      bg = :light_red
+      bg = :green
     elsif (i + j).odd?
-      bg = :light_white
+      bg = :magenta
     else
-      bg = :light_black
+      bg = :light_blue
     end
-    { background: bg, color: :white }
+    { background: bg } #, color: :black
   end
 
   def render
-    system("clear")
+    # system("clear")
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     build_grid.each { |row| puts row.join }
   end
 
   def run
-    puts "Mark all the spaces on the board!"
     puts "WASD or arrow keys to move the cursor, enter or space to confirm."
-    until @board.full?
+    until @board.win?
       render
-      pos = get_input
+      start_pos = get_input
+      end_pos = get_input
+      @board.move(start_pos, end_pos)
     end
-    puts "Hooray, the board is filled!"
+
   end
 end
+
+# b = Display.new
+# b.run
+# b.board.move!([1,0],[2,0])
+# b.render
+# p b.board[[2,0]].pos
+# c = b.board.dup
+# d = Display.new(c)
+# d.board.move!([2,0],[3,0])
+# d.render
+# b.render
