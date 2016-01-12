@@ -20,8 +20,8 @@ class SteppingPiece < Piece
     deltas.each do |delta|
       new_pos = [delta[0] + @pos[0], delta[1] + @pos[1]]
       @pos_moves << new_pos if in_bounds?(new_pos) &&
-                              (@board[new_pos].nil? ||
-                              @board[new_pos].color != self.color)
+                              (@board[new_pos].class == NilPiece ||
+                              opponent?(new_pos))
     end
     @pos_moves
   end

@@ -8,26 +8,57 @@ class Board
 
   def move(start_pos, end_pos)
     raise "There is no piece to move" if self[start_pos].nil?
-    move!(start_pos, end_pos) if valid_move(start_pos, end_pos)
-    raise "You cannot move there with that piece" unless valid_move?(start_pos, end_pos)
+    raise "That is not a valid move" unless valid_move?(start_pos, end_pos)
+    move!(start_pos, end_pos)
   end
 
   def move!(start_pos, end_pos)
-    self[end_pos] = self[start_pos]
+    self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].pos = end_pos
-    self[start_pos] = NilPiece.new
+    if self[start_pos].class != NilPiece
+      self[start_pos] = NilPiece.new
+    end
   end
 
   def valid_move?(start_pos, end_pos)
+    piece = self[start_pos]
+    piece.moves
+    if piece.pos_moves.include?(end_pos)
+      !in_check?(start_pos, end_pos)
+    else
+      false
+    end
+  end
+
+  def in_check?(start_pos, end_pos)
     duped_board = self.dup
     current_piece = duped_board[start_pos]
-    move!(start_pos, end_pos)
-    duped_board.flatten.each do |square|
-      if current_piece.oppenent?(square.pos)
+    duped_board.move!(start_pos, end_pos)
+    duped_board.grid.flatten.each do |square|
+      if square.is_a?(NilPiece)
+      elsif current_piece.opponent?(square.pos)
         square.moves
-        square.put_in_check?
+        return true if square.put_in_check?
       end
     end
+    false
+  end
+
+  def checkmate?(color)
+    every_pieces_moves = []
+    @grid.flatten.each do |square|
+      if square.color == color
+        square.moves
+
+        square.pos_moves.each do |move|
+          every_pieces_moves << move unless in_check?(square.pos, move)
+          p every_pieces_moves
+          p square unless every_pieces_moves.empty?
+          return false unless in_check?(square.pos, move)
+        end
+      end
+    end
+    true
   end
 
   def dup
@@ -87,7 +118,4 @@ class Board
     grid[row][col] = value
   end
 
-  def win?       #game_over
-    false
-  end
 end

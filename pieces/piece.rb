@@ -64,7 +64,7 @@ class Piece
   end
 
   def opponent?(pos)
-    return false if @board[pos].nil?
+    return false if @board[pos].class == NilPiece || @board[pos].nil?
     return true if @board[pos].color != self.color
     false
   end

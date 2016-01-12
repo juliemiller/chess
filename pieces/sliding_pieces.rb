@@ -19,12 +19,12 @@ class SlidingPiece < Piece
     @pos_moves = []
     deltas.each do |delta|
       possible_pos = [@pos[0] + delta[0], @pos[1] + delta[1]]
-      while in_bounds?(possible_pos) && board[possible_pos].nil?
+      while in_bounds?(possible_pos) && board[possible_pos].class == NilPiece
         @pos_moves << possible_pos
         possible_pos = [ possible_pos[0] + delta[0] , possible_pos[1] + delta[1] ]
       end
       if in_bounds?(possible_pos)
-        @pos_moves << possible_pos if board[possible_pos].color != self.color
+        @pos_moves << possible_pos if opponent?(possible_pos)
       end
     end
 

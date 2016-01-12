@@ -19,18 +19,18 @@ class Pawn < Piece
       if @pos[0] == 1
         DELTA_BLACK.each_with_index do |el, idx|
           new_move = [el[0] + @pos[0], el[1] + @pos[1]]
-          if @pos_moves.empty? && idx ==1
-          elsif @board[new_move].nil?
+          if @pos_moves.empty? && idx == 1
+          elsif @board[new_move].class == NilPiece
             @pos_moves << new_move
           end
         end
       else
         new_move = [@pos[0] + DELTA_BLACK[0][0], @pos[1] + DELTA_BLACK[0][1]]
-        @pos_moves << new_move if @board[new_move].nil?
+        @pos_moves << new_move if @board[new_move].class == NilPiece
       end
       DELTA_BLACK_KILL.each do |el|
         new_move = [el[0] + @pos[0], el[1] + @pos[1]]
-        @pos_moves << new_move if !@board[new_move].nil? && @board[new_move].color != self.color
+        @pos_moves << new_move if opponent?(new_move)
       end
 
     else self.color == :white
@@ -38,21 +38,21 @@ class Pawn < Piece
         DELTA_WHITE.each_with_index do |el, idx|
           new_move = [el[0] + @pos[0], el[1] + @pos[1]]
           if @pos_moves.empty? && idx ==1
-          elsif @board[new_move].nil?
+          elsif @board[new_move].class == NilPiece
             @pos_moves << new_move
           end
         end
       else
         new_move = [ @pos[0] + DELTA_WHITE[0][0], @pos[1] + DELTA_WHITE[0][1] ]
-        @pos_moves << new_move if @board[new_move].nil?
+        @pos_moves << new_move if @board[new_move].class == NilPiece
       end
       DELTA_WHITE_KILL.each do |el|
         new_move = [el[0] + @pos[0], el[1] + @pos[1]]
-        @pos_moves << new_move if !@board[new_move].nil? && @board[new_move].color != self.color
+        @pos_moves << new_move if opponent?(new_move)
       end
     end
 
-    @pos_moves.select { |move| in_bounds?(move)}
+    @pos_moves = @pos_moves.select { |move| in_bounds?(move)}
   end
 
 end
