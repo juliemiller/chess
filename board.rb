@@ -1,8 +1,9 @@
 class Board
-  attr_reader :grid
+  attr_reader :grid, :board_status
 
   def initialize(pop = true)
     @grid = Array.new(8) {Array.new(8) {NilPiece.new}}
+    @board_status = :normal
     populate if pop
   end
 
@@ -34,13 +35,21 @@ class Board
     duped_board = self.dup
     current_piece = duped_board[start_pos]
     duped_board.move!(start_pos, end_pos)
-    duped_board.grid.flatten.each do |square|
+    duped_board.check?(current_piece.color)
+  end
+
+  def check?(color)
+    @grid.flatten.each do |square|
       if square.is_a?(NilPiece)
-      elsif current_piece.opponent?(square.pos)
+      elsif square.color != color
         square.moves
-        return true if square.put_in_check?
+        if square.put_in_check?
+          @board_status = :check
+          return true
+        end
       end
     end
+    @board_status = :normal
     false
   end
 
@@ -49,15 +58,13 @@ class Board
     @grid.flatten.each do |square|
       if square.color == color
         square.moves
-
         square.pos_moves.each do |move|
           every_pieces_moves << move unless in_check?(square.pos, move)
-          p every_pieces_moves
-          p square unless every_pieces_moves.empty?
           return false unless in_check?(square.pos, move)
         end
       end
     end
+    @board_status = :checkmate
     true
   end
 
