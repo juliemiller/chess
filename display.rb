@@ -45,34 +45,5 @@ class Display
     build_grid.each { |row| puts row.join }
   end
 
-  # def run
-  #   color = :white
-  #   until @board.checkmate?(color)
-  #   begin
-  #     render
-  #     start_pos = nil
-  #     until start_pos
-  #       render
-  #       puts "Pick a piece!"
-  #       p @cursor_pos
-  #       start_pos = get_input
-  #     end
-  #     end_pos = nil
-  #     until end_pos
-  #       render
-  #       puts "Where do you want to move it?"
-  #       p @cursor_pos
-  #       end_pos = get_input
-  #     end
-  #     @board.move(start_pos, end_pos)
-  #   rescue
-  #     puts "Not a valid move!"
-  #     sleep(1)
-  #     retry
-  #   end
-  #   color == :black ? color = :white : color = :black
-  #   end
-  #   render
-  # end
 end
 d = Display.new

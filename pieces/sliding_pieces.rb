@@ -12,9 +12,8 @@ class SlidingPiece < Piece
                 :perpendicular => DELTA_PER,
                 :all => DELTA_DIAGONAL + DELTA_PER
                 }
-# options = :diagonal or :perpendicular
   def generate_moves(option)
-    raise "Specify which directions are allowed" if option.nil?
+    raise "Specify which directions are allowed" unless DELTA_HASH.keys.include?(option)
     deltas = DELTA_HASH[option]
     @pos_moves = []
     deltas.each do |delta|
@@ -23,9 +22,7 @@ class SlidingPiece < Piece
         @pos_moves << possible_pos
         possible_pos = [ possible_pos[0] + delta[0] , possible_pos[1] + delta[1] ]
       end
-      if in_bounds?(possible_pos)
-        @pos_moves << possible_pos if opponent?(possible_pos)
-      end
+      @pos_moves << possible_pos if in_bounds?(possible_pos) && opponent?(possible_pos)
     end
 
     @pos_moves
