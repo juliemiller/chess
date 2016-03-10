@@ -46,4 +46,4 @@ class Display
   end
 
 end
-d = Display.new
+# d = Display.new
