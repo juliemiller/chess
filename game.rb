@@ -30,7 +30,7 @@ class Game
         valid_piece?(start_pos)
       rescue
         puts "Pick your own piece!"
-        sleep(1)
+        sleep(2)
         retry
       end
       end_pos = @current_player.take_turn
@@ -44,9 +44,9 @@ class Game
 
     end
     switch_turns
-    @display.render(@current_player)
     puts "Congrats #{@current_player.color} player! You Win!"
-
+    @display.render(@current_player)
+    sleep(10)
   end
 
   def switch_turns
@@ -59,8 +59,9 @@ class Game
     true
   end
 end
-
-if __FILE__ == $PROGRAM_NAME
-  g = Game.new
-  g.run
-end
+# b = Board.new
+# d = Display.new
+# bob = Player.new(d, :white)
+# p bob
+g = Game.new
+g.run

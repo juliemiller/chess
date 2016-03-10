@@ -10,12 +10,25 @@ class Piece
     @pos_moves =[]
   end
 
+  def inspect
+    self.class
+  end
+
   def to_s
     "   ".colorize(color)
   end
 
+  def moves
+    pos_moves =[]
+    pos_moves
+  end
+
   def in_bounds?(pos)
     @board.in_bounds?(pos)
+  end
+
+  def die
+    @pos = [nil, nil]
   end
 
   def dup(board)
@@ -32,14 +45,20 @@ class Piece
     return array if array.empty?
     dup = []
     array.each do |el|
-      el.is_a?(Array) ? dup << deep_dup(el) : dup << el
+      if el.is_a?(Array)
+        dup << deep_dup(el)
+      else
+        dup << el
+      end
     end
     dup
   end
 
   def put_in_check?
     @pos_moves.each do |position|
-      return true if @board[position].class == King && opponent?(position)
+      if @board[position].class == King && opponent?(position)
+        return true
+      end
     end
     false
   end

@@ -16,11 +16,9 @@ class Board
   def move!(start_pos, end_pos)
     self[end_pos], self[start_pos] = self[start_pos], self[end_pos]
     self[end_pos].pos = end_pos
-    kill(start_pos)
-  end
-
-  def kill(pos)
-    self[pos] = NilPiece.new if self[pos].class != NilPiece
+    if self[start_pos].class != NilPiece
+      self[start_pos] = NilPiece.new
+    end
   end
 
   def valid_move?(start_pos, end_pos)
@@ -42,7 +40,8 @@ class Board
 
   def check?(color)
     @grid.flatten.each do |square|
-      if !square.is_a?(NilPiece) && square.color != color
+      if square.is_a?(NilPiece)
+      elsif square.color != color
         square.moves
         if square.put_in_check?
           @board_status = :check
@@ -79,11 +78,6 @@ class Board
     duped_board
   end
 
-  def in_bounds?(pos)
-    row, col = pos
-    row.between?(0, 7) && col.between?(0, 7)
-  end
-
   def populate
 
     @grid[1].each_with_index do |square, col|
@@ -105,7 +99,7 @@ class Board
 
     self[[0,2]] = Bishop.new([0,2], :black, self)
     self[[0,5]] = Bishop.new([0,5], :black, self)
-    self[[7,2]] = Bishop.new([7,2], :white, self)
+    self[[7,2]] = Bishop.new([0,2], :white, self)
     self[[7,5]] = Bishop.new([7,5], :white, self)
 
     self[[0,3]] = Queen.new([0,3], :black, self)
@@ -114,6 +108,11 @@ class Board
     self[[0,4]] = King.new([0,4], :black, self)
     self[[7,4]] = King.new([7,4], :white, self)
 
+  end
+
+  def in_bounds?(pos)
+    row, col = pos
+    row.between?(0, 7) && col.between?(0, 7)
   end
 
   def [](pos)
