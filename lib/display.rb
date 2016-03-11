@@ -39,7 +39,8 @@ class Display
 
   def render(player)
     system("clear")
-    puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
+    puts "Use the Arrow keys or WASD to move."
+    puts "Select a piece and confirm your move using space or enter."
     puts "#{player.to_s}'s turn"
     puts "You're in check" if @board.board_status == :check
     build_grid.each { |row| puts row.join }
