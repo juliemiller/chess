@@ -32,8 +32,8 @@ class Pawn < Piece
         new_move = [el[0] + @pos[0], el[1] + @pos[1]]
         @pos_moves << new_move if opponent?(new_move)
       end
-
-    else self.color == :white
+    
+    else 
       if @pos[0] == 6
         DELTA_WHITE.each_with_index do |el, idx|
           new_move = [el[0] + @pos[0], el[1] + @pos[1]]

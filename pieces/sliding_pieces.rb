@@ -12,7 +12,7 @@ class SlidingPiece < Piece
                 :perpendicular => DELTA_PER,
                 :all => DELTA_DIAGONAL + DELTA_PER
                 }
-# options = :diagonal or :perpendicular
+
   def generate_moves(option)
     raise "Specify which directions are allowed" if option.nil?
     deltas = DELTA_HASH[option]
