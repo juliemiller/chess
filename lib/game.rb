@@ -30,7 +30,7 @@ class Game
         valid_piece?(start_pos)
       rescue
         puts "Pick your own piece!"
-        sleep(2)
+        sleep(1)
         retry
       end
       end_pos = @current_player.take_turn
